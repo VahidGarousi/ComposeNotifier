@@ -1,7 +1,5 @@
-package garousi.dev.compose_notifier.notifier
+package garousi.dev.compose_notifier.notifier.ui
 
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,19 +18,16 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import garousi.dev.compose_notifier.notifier.core.NotificationType
 import java.util.UUID
 import kotlin.random.Random
-import kotlinx.coroutines.channels.broadcast
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NotificationScreen(
     modifier: Modifier = Modifier
@@ -42,30 +37,26 @@ fun NotificationScreen(
         title: String,
         description: String,
         duration: Long = 5000
-    ): Notification {
-        return Notification(
+    ): NotificationComposable {
+        return NotificationComposable(
             id = UUID.randomUUID().toString(),
             title = title,
             description = description,
-            duration = duration
+            duration = duration,
+            type = NotificationType.SUCCESS
         ) { scope, notification ->
-            with(scope) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-//                        .animateItemPlacement(
-//
-//                        )
-                ) {
-                    Text(text = notification.title)
-                    Text(text = notification.description)
-                }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Text(text = notification.title)
+                Text(text = notification.description)
             }
         }
     }
 
 
-    val notifications = remember { mutableStateListOf<Notification>() }
+    val notificationComposables = remember { mutableStateListOf<NotificationComposable>() }
     val notifierState = rememberNotifierState()
     ComposeNotifier(
         state = notifierState,
@@ -113,17 +104,17 @@ fun NotificationScreen(
                                 else -> 1000
                             }
                         )
-                        notifierState.addNotification(notification)
-                        notifications.add(notification)
+                        notifierState.add(notification)
+                        notificationComposables.add(notification)
                     }, modifier = Modifier.weight(0.5f)
                 ) {
                     Text(text = "Add")
                 }
                 TextButton(
                     onClick = {
-                        val notification = notifications.firstOrNull()
+                        val notification = notificationComposables.firstOrNull()
                         if (notification != null)
-                            notifierState.removeNotification(notification)
+                            notifierState.remove(notification)
                     }, modifier = Modifier.weight(0.5f)
                 ) {
                     Text(text = "Remove")
