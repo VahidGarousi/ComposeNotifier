@@ -12,8 +12,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -28,8 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import garousi.dev.compose_notifier.notifier.ui.ComposeNotifier
-import garousi.dev.compose_notifier.ui.notification.SampleScreen
 import garousi.dev.compose_notifier.notifier.ui.rememberNotifierState
+import garousi.dev.compose_notifier.ui.notification.SampleScreen
 import garousi.dev.compose_notifier.ui.theme.NotificationManagerTheme
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
@@ -38,24 +39,21 @@ import kotlinx.coroutines.delay
 //@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val notifierState = rememberNotifierState()
+            val notifierState = rememberNotifierState(
+                shouldShowToastOnAction = true
+            )
             NotificationManagerTheme(true) {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+                Scaffold(snackbarHost = { SnackbarHost(hostState = notifierState.snackbarHost) }) { padding ->
                     var ticks by remember { mutableStateOf(0) }
                     LaunchedEffect(Unit) {
-                        while(true) {
+                        while (true) {
                             val number = Random.nextInt(1, 6)
                             val notification = notifierState.produce(
-                                title = "Title $ticks",
-                                description = "Description",
-                                duration = when (number) {
+                                title = "Title $ticks", description = "Description", duration = when (number) {
                                     1 -> 10000
                                     2 -> 12500
                                     3 -> 5000
@@ -70,7 +68,11 @@ class MainActivity : ComponentActivity() {
                     ComposeNotifier(
                         state = notifierState
                     ) {
-                        Box(modifier = Modifier.fillMaxSize()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(padding)
+                        ) {
                             SampleScreen()
                             Row(
                                 modifier = Modifier
@@ -106,8 +108,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
-        modifier = modifier
+        text = "Hello $name!", modifier = modifier
     )
 }
 
