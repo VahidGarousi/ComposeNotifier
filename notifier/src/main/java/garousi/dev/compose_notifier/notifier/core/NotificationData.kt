@@ -1,6 +1,6 @@
 package garousi.dev.compose_notifier.notifier.core
 
-data class Notification(
+data class NotificationData(
     val id : String,
     val title: String,
     val description: String,

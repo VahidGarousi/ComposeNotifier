@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -23,16 +25,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import garousi.dev.compose_notifier.notifier.R
-import garousi.dev.compose_notifier.notifier.core.Notification
+import garousi.dev.compose_notifier.notifier.core.NotificationData
 import garousi.dev.compose_notifier.notifier.core.NotificationType
 
 /**
  * Default composable which handle [NotificationType.SUCCESS], [NotificationType.ERROR], [NotificationType.WARN], [NotificationType.INFO]
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Notification(
-    notification: Notification,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    notification: NotificationData,
+    actionLabel: String? = null,
+    onNotificationClicked: (NotificationData) -> Unit = {},
+    onActionClicked: () -> Unit = {}
 ) {
     val icon = when (notification.type) {
         NotificationType.SUCCESS -> R.drawable.ic_success
@@ -44,7 +50,10 @@ fun Notification(
         modifier = modifier
             .fillMaxWidth()
             .height(96.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0XFF373E58), contentColor = Color.White)
+        colors = CardDefaults.cardColors(containerColor = Color(0XFF373E58), contentColor = Color.White),
+        onClick = {
+            onNotificationClicked(notification)
+        }
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -67,6 +76,11 @@ fun Notification(
                 Text(text = notification.title, style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold))
                 Text(text = notification.description)
             }
+            if (actionLabel != null) {
+                Button(onClick = onActionClicked) {
+                    Text(text = actionLabel)
+                }
+            }
         }
     }
 }
@@ -75,7 +89,7 @@ fun Notification(
 @Composable
 @Preview
 fun NotificationPreview(
-    @PreviewParameter(NotificationPreviewParameter::class) notification: Notification
+    @PreviewParameter(NotificationPreviewParameter::class) notification: NotificationData
 ) {
     Notification(notification = notification)
 }

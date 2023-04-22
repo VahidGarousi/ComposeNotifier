@@ -3,6 +3,7 @@ package garousi.dev.compose_notifier.notifier.ui
 import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
+import garousi.dev.compose_notifier.notifier.core.NotificationData
 
 /**
  * @property [Success]
@@ -15,17 +16,34 @@ import androidx.compose.runtime.Immutable
 @Immutable
 interface NotificationItemScope {
     @Composable
-    fun Success(notification: garousi.dev.compose_notifier.notifier.core.Notification)
+    fun Success(
+        notification: NotificationData,
+        onNotificationClicked: (NotificationData) -> Unit,
+        actionLabel: String?,
+        onActionClicked: () -> Unit
+    )
 
     @Composable
-
-    fun Warning(notification: garousi.dev.compose_notifier.notifier.core.Notification)
+    fun Warning(
+        notification: NotificationData,
+        onNotificationClicked: (NotificationData) -> Unit,
+        actionLabel: String?,
+        onActionClicked: () -> Unit
+    )
 
     @Composable
-
-    fun Info(notification: garousi.dev.compose_notifier.notifier.core.Notification)
+    fun Info(
+        notification: NotificationData,
+        onNotificationClicked: (NotificationData) -> Unit,
+        actionLabel: String?,
+        onActionClicked: () -> Unit
+    )
 
     @Composable
-
-    fun Error(notification: garousi.dev.compose_notifier.notifier.core.Notification)
+    fun Error(
+        notification: NotificationData,
+        onNotificationClicked: (NotificationData) -> Unit,
+        actionLabel: String?,
+        onActionClicked: () -> Unit
+    )
 }
