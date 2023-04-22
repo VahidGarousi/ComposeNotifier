@@ -15,13 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import garousi.dev.compose_notifier.notifier.core.NotificationType
 
+/**
+ * @param [state]
+ * @param [notificationItemScope]
+ * @param [content]
+ */
 @Composable
 fun ComposeNotifier(
     modifier: Modifier = Modifier,
     state: NotifierState,
+    notificationItemScope: NotificationItemScope? = null,
     content: @Composable BoxWithConstraintsScope.() -> Unit
 ) {
-    val notificationItemScope = remember { DefaultNotificationItemScope() }
+    val initialNotificationItemScope = remember { notificationItemScope ?: DefaultNotificationItemScope() }
 
     BoxWithConstraints(
         modifier = modifier.fillMaxSize()
@@ -36,7 +42,7 @@ fun ComposeNotifier(
                 key = { item -> item.getItemKey() }
             ) { notification ->
                 when (notification.type) {
-                    NotificationType.SUCCESS -> notificationItemScope.Success(
+                    NotificationType.SUCCESS -> initialNotificationItemScope.Success(
                         notification = garousi.dev.compose_notifier.notifier.core.Notification(
                             id = notification.id,
                             title = notification.title,
@@ -46,7 +52,7 @@ fun ComposeNotifier(
                         )
                     )
 
-                    NotificationType.ERROR -> notificationItemScope.Error(
+                    NotificationType.ERROR -> initialNotificationItemScope.Error(
                         notification = garousi.dev.compose_notifier.notifier.core.Notification(
                             id = notification.id,
                             title = notification.title,
@@ -56,7 +62,7 @@ fun ComposeNotifier(
                         )
                     )
 
-                    NotificationType.WARN -> notificationItemScope.Warning(
+                    NotificationType.WARN -> initialNotificationItemScope.Warning(
                         notification = garousi.dev.compose_notifier.notifier.core.Notification(
                             id = notification.id,
                             title = notification.title,
@@ -66,7 +72,7 @@ fun ComposeNotifier(
                         )
                     )
 
-                    NotificationType.INFO -> notificationItemScope.Info(
+                    NotificationType.INFO -> initialNotificationItemScope.Info(
                         notification = garousi.dev.compose_notifier.notifier.core.Notification(
                             id = notification.id,
                             title = notification.title,

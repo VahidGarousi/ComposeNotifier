@@ -1,9 +1,13 @@
-package garousi.dev.compose_notifier.notifier.ui
+package garousi.dev.compose_notifier.notifier.ui.model
 
 import androidx.compose.runtime.Composable
 import garousi.dev.compose_notifier.notifier.core.Notification
 import garousi.dev.compose_notifier.notifier.core.NotificationType
+import garousi.dev.compose_notifier.notifier.ui.NotificationItemScope
 
+/**
+ *
+ */
 data class Notification(
     val id: String,
     val title: String,
@@ -13,9 +17,4 @@ data class Notification(
     val content: @Composable NotificationItemScope.(Notification) -> Unit
 ) : ComposableItem() {
     override fun getItemKey(): String = "$title/$description/$id/${type.value}"
-}
-
-
-abstract class ComposableItem {
-    abstract fun getItemKey(): String
 }

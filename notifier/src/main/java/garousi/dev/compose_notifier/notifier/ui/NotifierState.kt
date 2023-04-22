@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.mutableStateListOf
 import garousi.dev.compose_notifier.notifier.core.NotificationType
+import garousi.dev.compose_notifier.notifier.ui.model.Notification
 import java.util.Timer
 import java.util.UUID
 import kotlin.concurrent.schedule

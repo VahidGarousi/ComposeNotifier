@@ -1,4 +1,4 @@
-package garousi.dev.compose_notifier.notifier.ui
+package garousi.dev.compose_notifier.ui.notification
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun NotificationScreen(
+fun SampleScreen(
     modifier: Modifier = Modifier
 ) {
     LazyColumn(

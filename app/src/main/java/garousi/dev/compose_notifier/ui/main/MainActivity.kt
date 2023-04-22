@@ -1,4 +1,4 @@
-package garousi.dev.compose_notifier
+package garousi.dev.compose_notifier.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -28,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import garousi.dev.compose_notifier.notifier.ui.ComposeNotifier
-import garousi.dev.compose_notifier.notifier.ui.NotificationScreen
+import garousi.dev.compose_notifier.ui.notification.SampleScreen
 import garousi.dev.compose_notifier.notifier.ui.rememberNotifierState
 import garousi.dev.compose_notifier.ui.theme.NotificationManagerTheme
 import kotlin.random.Random
@@ -67,9 +67,11 @@ class MainActivity : ComponentActivity() {
                             ticks++
                         }
                     }
-                    ComposeNotifier(state = notifierState) {
+                    ComposeNotifier(
+                        state = notifierState
+                    ) {
                         Box(modifier = Modifier.fillMaxSize()) {
-                            NotificationScreen()
+                            SampleScreen()
                             Row(
                                 modifier = Modifier
                                     .padding(12.dp)
