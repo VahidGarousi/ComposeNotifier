@@ -3,6 +3,7 @@ package garousi.dev.compose_notifier.notifier.ui
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.LayoutScopeMarker
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,7 +33,7 @@ fun Notification(
     notification: Notification,
     modifier: Modifier = Modifier
 ) {
-    val icon = when(notification.type){
+    val icon = when (notification.type) {
         NotificationType.SUCCESS -> R.drawable.ic_success
         NotificationType.ERROR -> R.drawable.ic_error
         NotificationType.WARN -> R.drawable.ic_warning
@@ -75,4 +77,50 @@ fun NotificationPreview(
     @PreviewParameter(NotificationPreviewParameter::class) notification: Notification
 ) {
     Notification(notification = notification)
+}
+
+
+@LayoutScopeMarker
+@Immutable
+interface NotificationItemScope {
+    @Composable
+    fun Success(notification: Notification)
+
+    @Composable
+
+    fun Warning(notification: Notification)
+
+    @Composable
+
+    fun Info(notification: Notification)
+
+    @Composable
+
+    fun Error(notification: Notification)
+}
+
+
+class DefaultNotificationItemScope : NotificationItemScope {
+    @Composable
+    override fun Success(notification: Notification) {
+        Notification(notification = notification)
+    }
+
+    @Composable
+
+    override fun Warning(notification: Notification) {
+        Notification(notification = notification)
+    }
+    @Composable
+
+    override fun Info(notification: Notification) {
+        Notification(notification = notification)
+    }
+
+    @Composable
+
+    override fun Error(notification: Notification) {
+        Notification(notification = notification)
+    }
+
 }
