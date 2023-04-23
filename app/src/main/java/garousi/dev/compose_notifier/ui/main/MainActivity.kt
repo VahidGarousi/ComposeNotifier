@@ -31,17 +31,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dagger.hilt.android.AndroidEntryPoint
 import garousi.dev.compose_notifier.notifier.ui.ComposeNotifier
 import garousi.dev.compose_notifier.notifier.ui.Notification
 import garousi.dev.compose_notifier.notifier.ui.rememberNotifierState
-import garousi.dev.compose_notifier.ui.notification.SampleScreen
+import garousi.dev.compose_notifier.ui.notification.NotificationsScreen
 import garousi.dev.compose_notifier.ui.theme.NotificationManagerTheme
 import kotlin.random.Random
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     @OptIn(ExperimentalMaterial3Api::class)
@@ -101,7 +102,7 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxSize()
                                 .padding(padding)
                         ) {
-                            SampleScreen()
+                            NotificationsScreen()
                             Row(
                                 modifier = Modifier
                                     .padding(12.dp)
