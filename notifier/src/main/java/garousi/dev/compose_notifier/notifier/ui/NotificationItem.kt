@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -25,8 +26,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import garousi.dev.compose_notifier.notifier.R
-import garousi.dev.compose_notifier.notifier.core.NotificationData
 import garousi.dev.compose_notifier.notifier.core.NotificationType
+import garousi.dev.compose_notifier.notifier.ui.model.Notification
 
 /**
  * Default composable which handle [NotificationType.SUCCESS], [NotificationType.ERROR], [NotificationType.WARN], [NotificationType.INFO]
@@ -35,9 +36,9 @@ import garousi.dev.compose_notifier.notifier.core.NotificationType
 @Composable
 fun Notification(
     modifier: Modifier = Modifier,
-    notification: NotificationData,
+    notification: Notification,
     actionLabel: String? = null,
-    onNotificationClicked: (NotificationData) -> Unit = {},
+    onNotificationClicked: (Notification) -> Unit = {},
     onActionClicked: () -> Unit = {}
 ) {
     val icon = when (notification.type) {
@@ -46,18 +47,15 @@ fun Notification(
         NotificationType.WARN -> R.drawable.ic_warning
         NotificationType.INFO -> R.drawable.ic_info
     }
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .height(96.dp),
+    Card(modifier = modifier
+        .fillMaxWidth()
+        .height(76.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0XFF373E58), contentColor = Color.White),
         onClick = {
             onNotificationClicked(notification)
-        }
-    ) {
+        }) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically
         ) {
             Box(modifier = Modifier.size(56.dp)) {
                 Icon(
@@ -70,14 +68,15 @@ fun Notification(
             Column(
                 modifier = Modifier
                     .fillMaxHeight()
-                    .weight(1f),
-                verticalArrangement = Arrangement.Center
+                    .weight(1f), verticalArrangement = Arrangement.Center
             ) {
                 Text(text = notification.title, style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold))
                 Text(text = notification.description)
             }
             if (actionLabel != null) {
-                Button(onClick = onActionClicked) {
+                Button(
+                    onClick = onActionClicked, modifier = Modifier.padding(end = 12.dp)
+                ) {
                     Text(text = actionLabel)
                 }
             }
@@ -89,7 +88,7 @@ fun Notification(
 @Composable
 @Preview
 fun NotificationPreview(
-    @PreviewParameter(NotificationPreviewParameter::class) notification: NotificationData
+    @PreviewParameter(NotificationPreviewParameter::class) notification: Notification
 ) {
     Notification(notification = notification)
 }
